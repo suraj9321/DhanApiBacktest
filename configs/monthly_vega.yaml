@@ -1,0 +1,22 @@
+# Monthly vega variant — front-of-month entry, exit before the final week.
+name: monthly_vega
+flag: month
+entry:
+  dte: 15
+  tod: "09:20"
+  gates:
+    vrp_month_min: 1.0
+    iv_rank_min: 40
+strikes:
+  kind: condor
+  short_delta: 0.20
+  put_wing_pts: 400
+  call_wing_pts: 500
+exits:
+  profit_target_pct: 50
+  stop_multiple: 1.5
+  delta_breach: 0.35
+  hard: {dte: 5, tod: "15:00"}
+sizing:
+  risk_pct_per_trade: 2.0
+eval_step_min: 5

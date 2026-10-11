@@ -1,0 +1,24 @@
+# Iron fly variant — defined-risk version of the structure that carried the
+# measured +16 pts/wk edge (notes/analysis-monday-entry.md). ATM shorts,
+# no delta-breach (starts at 0.5), no stop (max loss < any stop line —
+# the wings ARE the stop). Exits: 50% target or hard 13:15.
+name: weekly_fly
+flag: week
+entry:
+  dte: 1
+  tod: "09:20"
+  gates:
+    vrp_week_min: 0.0
+strikes:
+  kind: fly
+  short_delta: 0.5        # unused for fly (shorts at ATM); kept for schema
+  put_wing_pts: 250
+  call_wing_pts: 300
+exits:
+  profit_target_pct: 50
+  stop_multiple: null
+  delta_breach: null
+  hard: {dte: 0, tod: "13:15"}
+sizing:
+  risk_pct_per_trade: 2.5
+eval_step_min: 5

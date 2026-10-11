@@ -1,0 +1,9 @@
+requests>=2.31
+python-dotenv>=1.0
+pandas>=2.0
+pyarrow>=15.0
+duckdb>=1.0
+pytz>=2024.1
+scipy>=1.11
+arch>=6.0
+pyyaml>=6.0

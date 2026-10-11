@@ -1,0 +1,30 @@
+# Range-breakout strangle, per Suraj's spec 2026-07-20 (Twitter @mitesh_engr
+# slide): last week's high/low sets the range; sell 1-2% outside it, skewed
+# by where price sits in the range; stop-loss on breach, flip to the
+# opposite side once direction is confirmed. NAKED for this pilot (no
+# protective wings) -- explicit user decision to test the raw idea first;
+# wings to be added later if this shows edge. See src/backtest/range_engine.py
+# for the full mechanics and notes/backtests/ for the interpretation choices.
+name: range_strangle_v01
+entry:
+  dte: 1            # Monday in the Tue-expiry regime (our validated T-1 window)
+  tod: "09:20"
+strikes:
+  dist_pct: 1.5      # % beyond last week's high/low
+  near_low_max: 0.30 # loc <= this -> sell calls only
+  near_high_min: 0.70 # loc >= this -> sell puts only
+  # 0.30 < loc < 0.70 -> sell both (strangle)
+# Exit plan REVISED 2026-07-23 per Suraj's clarification (a classical S/R
+# breach + premium-decay rule set, replacing the weekly-ROI target from the
+# second slide): breach stop unchanged; profit target now per-leg premium
+# decay (80% of credit captured); stop-loss unchanged at 2.5x premium;
+# capital risk tightened to 1-2% per setup (using the midpoint, as with
+# every other stated-range parameter in this file).
+exits:
+  premium_stop_multiple: 2.5      # cut if the sold option roughly doubles (~2.5x) -- Suraj's stated number
+  profit_decay_target_pct: 80     # exit when the leg's premium has decayed 80% (captured 80% of credit)
+  hard: {dte: 0, tod: "13:15"}
+sizing:
+  risk_pct_per_trade: 1.5  # "strict ~1-2% per setup" -- midpoint; sized against (premium_stop_multiple - 1) * entry credit
+  margin_pct_of_notional: 12.0  # rough SPAN+exposure proxy for naked Nifty options; CALIBRATE vs live Dhan margin API before real money
+eval_step_min: 5

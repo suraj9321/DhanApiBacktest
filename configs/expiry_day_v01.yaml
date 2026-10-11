@@ -1,0 +1,23 @@
+# Expiry-day-only iron condor ("0DTE"), per Suraj's spec 2026-07-18:
+# enter in the first 20-30 min of open, shorts at the straddle-implied
+# expected-move range, far wings capped at max loss = 3x net credit,
+# exit at 60% of credit captured or 14:00, whichever first.
+name: expiry_day_v01
+flag: week
+entry:
+  dte: 0
+  tod: "09:35"          # decision tick; fills at next minute bar
+  gates: {}             # no vol gate in v01 — strike placement carries the vol adaptation
+strikes:
+  kind: condor
+  mode: expected_move
+  em_mult: 1.0          # shorts at fwd +/- 1.0 x ATM straddle
+  max_loss_mult: 3.0    # wings: farthest D with (D - credit) <= 3 x credit
+exits:
+  profit_target_pct: 60
+  stop_multiple: null   # structural 3x-credit bound IS the stop
+  delta_breach: null
+  hard: {dte: 0, tod: "14:00"}
+sizing:
+  risk_pct_per_trade: 2.5
+eval_step_min: 5

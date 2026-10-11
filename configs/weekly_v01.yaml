@@ -1,0 +1,22 @@
+# Strategy v0.1 — the empirically selected weekly window (notes/analysis-monday-entry.md)
+# T-1 morning entry, iron condor, profit target 50%, hard exit expiry 13:15.
+name: weekly_v01
+flag: week
+entry:
+  dte: 1
+  tod: "09:20"
+  gates:
+    vrp_week_min: 0.0        # VRP must at least be positive; tighten in grid runs
+strikes:
+  kind: condor
+  short_delta: 0.15
+  put_wing_pts: 200
+  call_wing_pts: 250
+exits:
+  profit_target_pct: 50
+  stop_multiple: 2.0
+  delta_breach: 0.35
+  hard: {dte: 0, tod: "13:15"}
+sizing:
+  risk_pct_per_trade: 2.5
+eval_step_min: 5

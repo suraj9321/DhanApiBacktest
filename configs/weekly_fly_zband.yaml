@@ -1,0 +1,23 @@
+# Fly with the empirically-derived gate: VRP must exist but NOT be a stress
+# signature (bucket attribution 2026-07-18: z>=0.5 weeks are adverse selection).
+name: weekly_fly_zband
+flag: week
+entry:
+  dte: 1
+  tod: "09:20"
+  gates:
+    vrp_week_min: 0.0
+    vrp_z_max: 0.5
+strikes:
+  kind: fly
+  short_delta: 0.5
+  put_wing_pts: 250
+  call_wing_pts: 300
+exits:
+  profit_target_pct: 50
+  stop_multiple: null
+  delta_breach: null
+  hard: {dte: 0, tod: "13:15"}
+sizing:
+  risk_pct_per_trade: 2.5
+eval_step_min: 5

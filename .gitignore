@@ -1,0 +1,21 @@
+# Secrets — never commit
+.env
+
+# Data — regenerable from the API, too big for git
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# OS / editor
+.DS_Store
+.pytest_cache/
+
+# Third-party / copyrighted material — keep local, never redistribute
+*.pdf
+
+# Obsidian workspace state (keep vault content, ignore per-machine UI state)
+notes/.obsidian/workspace.json
