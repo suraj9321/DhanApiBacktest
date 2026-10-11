@@ -1,6 +1,6 @@
 # DhanApiBacktest
 
-![tests](https://img.shields.io/badge/tests-pytest-0a9396)
+[![tests](https://github.com/suraj9321/DhanApiBacktest/actions/workflows/tests.yml/badge.svg)](https://github.com/suraj9321/DhanApiBacktest/actions/workflows/tests.yml)
 ![python](https://img.shields.io/badge/python-3.12%2B-3776ab)
 ![license](https://img.shields.io/badge/license-MIT-blue)
 ![status](https://img.shields.io/badge/stage-research-e0a030)
