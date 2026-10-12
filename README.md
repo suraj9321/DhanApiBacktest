@@ -44,33 +44,6 @@ this repo is the pipeline and the backtester, not a headline return.
 Built with Python 3.12+, pandas, pyarrow (Parquet), DuckDB, scipy, arch (GARCH), PyYAML,
 and pytest.
 
-## Running the tests (no data needed)
-
-The test suite does not touch the data store, so it runs on a fresh clone:
-
-```bash
-pip install -r requirements.txt && pip install pytest && pytest tests/ -q
-```
-
-The full five-year option history needs a paid DhanHQ Data APIs subscription and is kept
-out of git (it is large and regenerable with `scripts/pull_all.py`). The committed charts
-under [`notes/attachments/`](notes/attachments/) show results from past runs, and the
-reasoning behind the design lives in the [`notes/`](notes/Home.md) vault.
-
-## Repository layout
-
-```
-notes/               Obsidian vault: strategy, risk framework, decisions, references
-src/pipeline/        Data pipeline package
-  config.py            All tunables (IDs, windows, strike grid, rate limits, paths)
-  dhan_client.py       Throttled HTTP client with retry + raw-response disk cache
-  fetch_options.py     5y rolling expired-options pull (WEEK+MONTH, ATM +/-10, 1-min bars)
-  fetch_spot.py        Nifty + India VIX: daily since inception, 1-min intraday 5y
-  to_parquet.py        Raw JSON into partitioned Parquet
-scripts/pull_all.py  Pipeline orchestrator CLI
-data/                (gitignored) raw JSON cache, Parquet store, meta.duckdb
-```
-
 ## Architecture
 
 The flow runs end to end: pull historical chains and index series from Dhan, cache the raw
@@ -157,6 +130,34 @@ flowchart TB
 The specialized strategy scripts (range strangle, pivot/Supertrend, expiry-day grids) reuse
 `MarketData` and `costs.py` but bypass the main condor/fly engine where the trade shape is
 different.
+
+## Running the tests (no data needed)
+
+The test suite does not touch the data store, so it runs on a fresh clone:
+
+```bash
+pip install -r requirements.txt && pip install pytest && pytest tests/ -q
+```
+
+The full five-year option history needs a paid DhanHQ Data APIs subscription and is kept
+out of git (it is large and regenerable with `scripts/pull_all.py`). The committed charts
+under [`notes/attachments/`](notes/attachments/) show results from past runs, and the
+reasoning behind the design lives in the [`notes/`](notes/Home.md) vault.
+
+## Repository layout
+
+```
+notes/               Obsidian vault: strategy, risk framework, decisions, references
+src/pipeline/        Data pipeline package
+  config.py            All tunables (IDs, windows, strike grid, rate limits, paths)
+  dhan_client.py       Throttled HTTP client with retry + raw-response disk cache
+  fetch_options.py     5y rolling expired-options pull (WEEK+MONTH, ATM +/-10, 1-min bars)
+  fetch_spot.py        Nifty + India VIX: daily since inception, 1-min intraday 5y
+  to_parquet.py        Raw JSON into partitioned Parquet
+scripts/pull_all.py  Pipeline orchestrator CLI
+data/                (gitignored) raw JSON cache, Parquet store, meta.duckdb
+```
+
 
 ## The Obsidian vault
 
